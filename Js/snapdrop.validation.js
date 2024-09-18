@@ -1,40 +1,57 @@
 // js/snapdrop.validation.js
 
 /**
- * Ensures that the number of selected items is greater than or equal to the minimum limit.
+ * Validates the built-in conditions: minSelectLimit and maxSelectLimit.
+ * 
  * @param {Array} selectedItems - The items that are currently selected.
- * @param {number} minLimit - The minimum number of items required.
- * @returns {boolean} - True if the selection is valid, false otherwise.
+ * @param {Object} options - The dropdown options (minSelectLimit, maxSelectLimit, messages).
+ * @returns {Object} - An object containing 'isValid' boolean and 'message' (if invalid).
  */
-export function validateMinSelectLimit(selectedItems, minLimit) {
-  return selectedItems.length >= minLimit;
+export function validateCore(selectedItems, options) {
+  // Validate minimum select limit
+  if (options.minSelectLimit && selectedItems.length < options.minSelectLimit) {
+    return {
+      isValid: false,
+      message: options.minSelectLimitMessage.replace('{min}', options.minSelectLimit)
+    };
+  }
+
+  // Validate maximum select limit
+  if (options.maxSelectLimit && selectedItems.length > options.maxSelectLimit) {
+    return {
+      isValid: false,
+      message: options.maxSelectLimitMessage.replace('{max}', options.maxSelectLimit)
+    };
+  }
+
+  // Core validations passed
+  return {
+    isValid: true,
+    message: ''
+  };
 }
 
 /**
- * Ensures that the number of selected items is less than or equal to the maximum limit.
+ * Runs custom validation functions and returns validation results.
+ * 
  * @param {Array} selectedItems - The items that are currently selected.
- * @param {number} maxLimit - The maximum number of items allowed.
- * @returns {boolean} - True if the selection is valid, false otherwise.
- */
-export function validateMaxSelectLimit(selectedItems, maxLimit) {
-  return selectedItems.length <= maxLimit;
-}
-
-/**
- * Ensures that at least one item is selected (useful for required fields).
- * @param {Array} selectedItems - The items that are currently selected.
- * @returns {boolean} - True if at least one item is selected, false otherwise.
- */
-export function requiredValidator(selectedItems) {
-  return selectedItems.length > 0;
-}
-
-/**
- * Runs custom validation functions that are passed by the user in the options.
- * @param {Array} selectedItems - The items that are currently selected.
- * @param {Array} customValidators - Custom validator functions passed in options.
- * @returns {boolean} - True if all custom validators return true, false otherwise.
+ * @param {Array} customValidators - Array of custom validation functions defined by the user.
+ * @returns {Object} - Returns either null (valid) or the first error message encountered.
  */
 export function runCustomValidators(selectedItems, customValidators) {
-  return customValidators.every(validator => validator(selectedItems));
+  for (const validator of customValidators) {
+    const result = validator(selectedItems); // Custom validator returns either null or a message
+    if (result !== null) {
+      return {
+        isValid: false,
+        message: result // Return custom message directly
+      };
+    }
+  }
+  
+  // All custom validators passed
+  return {
+    isValid: true,
+    message: ''
+  };
 }

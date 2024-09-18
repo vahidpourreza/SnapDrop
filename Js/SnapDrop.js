@@ -1,10 +1,7 @@
 // js/snapdrop.js
 
-import { debounce } from './snapdrop.utils.js';
-import { handleDropdownToggle, handleItemSelect, handleSearchInput } from './snapdrop.events.js';
-import { fetchDropdownItems } from './snapdrop.api.js';
-import { messages } from './snapdrop.messages.js'; 
-import { validateMinSelectLimit, validateMaxSelectLimit, requiredValidator, runCustomValidators } from './snapdrop.validation.js'; // Importing validation functions
+import { messages } from './snapdrop.messages.js';
+import { validateCore, runCustomValidators } from './snapdrop.validation.js';
 
 export class Snapdrop {
   constructor(container, options = {}) {
@@ -101,28 +98,19 @@ export class Snapdrop {
   }
 
   validate() {
-    const validMin = this.options.minSelectLimit
-      ? validateMinSelectLimit(this.state.selectedItems, this.options.minSelectLimit)
-      : true;
+    // First, run Snapdrop's core validation (min/max selection limits)
+    const coreValidationResult = validateCore(this.state.selectedItems, this.options);
 
-    const validMax = this.options.maxSelectLimit
-      ? validateMaxSelectLimit(this.state.selectedItems, this.options.maxSelectLimit)
-      : true;
-
-    const customValid = runCustomValidators(this.state.selectedItems, this.options.customValidators);
-
-    if (!validMin) {
-      this._triggerValidationMessage(this.options.minSelectLimitMessage.replace('{min}', this.options.minSelectLimit));
+    if (!coreValidationResult.isValid) {
+      this._triggerValidationMessage(coreValidationResult.message); // Built-in validation message
       return false;
     }
 
-    if (!validMax) {
-      this._triggerValidationMessage(this.options.maxSelectLimitMessage.replace('{max}', this.options.maxSelectLimit));
-      return false;
-    }
+    // If core validation passes, proceed to custom validators
+    const customValidationResult = runCustomValidators(this.state.selectedItems, this.options.customValidators);
 
-    if (!customValid) {
-      this._triggerValidationMessage('Custom validation failed.');
+    if (!customValidationResult.isValid) {
+      this._triggerValidationMessage(customValidationResult.message); // Custom validation message
       return false;
     }
 
@@ -145,3 +133,4 @@ export class Snapdrop {
     this.state.searchQuery = query;
   }
 }
+
