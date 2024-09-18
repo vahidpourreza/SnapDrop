@@ -1,0 +1,37 @@
+i want to  create a customizble dropdown with js.
+iwant to createthis features :
+
+1. single select
+2.multiple select
+3.groupped item
+4.rtl/ltr
+5. if its multiple select user > options can have :
+1.select all option.
+2.selectlimitcount.
+listmessagecallback
+6.user can define their own validators.
+7.validation message handler
+8. enable/disable search.
+9. whole dropdown enable/disable
+10.preselect
+11. searchplaceholder or if its not searchable have placeholder for dropdown
+12. each item in dropdown can be disabled,
+13. each item in dropdown can have small pic/ or font-awsome icon class
+14. each item could have a 2-3 small words next to labe for description.
+15. each item have value, index
+16. if its groupped, groups have lable
+
+17. searchable dropdowns can have this options too :
+[
+api real time support.
+if it use api for dropdown,
+dropdown items should be empty or get a little amount of items for show to user at first
+by user scolling, the dropdown will be get next data's from server and add to dropdown.
+or if the user search a specefic value, find items by that.
+]
+
+dropdown should have good ui... i attach some pic for you to see, i imelemented some of this features , but i want to write again becuase the code handwritng isnt well structred.
+tell me step by step how should i imelement this. thanks.
+
+
+
