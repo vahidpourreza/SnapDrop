@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SnapDrop Demo</title>
+  <link rel="stylesheet" href="/Css/snapdrop.css">
+</head>
+<body>
+
+  <div id="dropdownContainer" class="snapdrop-container">
+    <!-- Dropdown will be rendered here by the JavaScript -->
+  </div>
+
+  <script type="module">
+    import { Snapdrop } from './js/snapdrop.js'; // Make sure the path is correct
+  
+    document.addEventListener('DOMContentLoaded', function () {
+      const container = document.getElementById('dropdownContainer');
+  
+      // Initialize Snapdrop
+      const dropdown = new Snapdrop(container, {
+        multiple: true,
+        placeholder: 'Search for a country...',
+        searchEnabled: true,
+        apiUrl: null, // You can add an API URL here for real-time search
+      });
+  
+      // Set some initial items for testing
+      dropdown.setItems([
+        { value: 1, label: 'United States' },
+        { value: 2, label: 'Canada' },
+        { value: 3, label: 'Mexico' },
+        { value: 4, label: 'France' },
+        { value: 5, label: 'Germany' },
+      ]);
+  
+      dropdown.open(); // Open dropdown (optional)
+    });
+  </script>
+  
+</body>
+</html>

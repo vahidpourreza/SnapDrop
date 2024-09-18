@@ -1,0 +1,42 @@
+    .snapdrop-container {
+        position: relative;
+        width: 300px;
+        margin: 20px auto;
+      }
+  
+      .snapdrop-dropdown {
+        border: 1px solid #ccc;
+        padding: 10px;
+        width: 100%;
+        cursor: pointer;
+      }
+  
+      .snapdrop-items {
+        border: 1px solid #ccc;
+        border-top: none;
+        display: none;
+        max-height: 200px;
+        overflow-y: auto;
+        background: #fff;
+        position: absolute;
+        width: 100%;
+        z-index: 1000;
+      }
+  
+      .snapdrop-item {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+      }
+  
+      .snapdrop-item:hover {
+        background-color: #f1f1f1;
+      }
+  
+      .snapdrop-open .snapdrop-items {
+        display: block;
+      }
+  
+      .snapdrop-selected {
+        background-color: #d4edda;
+      }

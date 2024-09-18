@@ -1,16 +1,18 @@
 // js/snapdrop.events.js
 
 export function handleDropdownToggle(event) {
-    // Logic to toggle dropdown open/close
-  }
-  
-  export function handleItemSelect(event) {
-    // Logic to select an item in the dropdown
-  }
-  
-  export function handleSearchInput(event) {
-    // Logic to search in the dropdown
-  }
-  
-  // Add other event handlers for features like validation, API fetch, etc.
-  
+  const snapdropInstance = event.target.snapdropInstance;
+  snapdropInstance.toggle();
+}
+
+export function handleItemSelect(event) {
+  const item = event.target;
+  const snapdropInstance = item.snapdropInstance;
+  snapdropInstance.state.selectedItems.push(item);
+  // Update UI to show selected item
+}
+
+export function handleSearchInput(event) {
+  const snapdropInstance = event.target.snapdropInstance;
+  snapdropInstance.search(event.target.value);
+}
