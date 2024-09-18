@@ -1,43 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SnapDrop Demo</title>
   <link rel="stylesheet" href="/Css/snapdrop.css">
 </head>
+
 <body>
 
   <div id="dropdownContainer" class="snapdrop-container">
     <!-- Dropdown will be rendered here by the JavaScript -->
   </div>
 
+
+
   <script type="module">
     import { Snapdrop } from './js/snapdrop.js'; // Make sure the path is correct
-  
-    document.addEventListener('DOMContentLoaded', function () {
-      const container = document.getElementById('dropdownContainer');
-  
-      // Initialize Snapdrop
-      const dropdown = new Snapdrop(container, {
-        multiple: true,
-        placeholder: 'Search for a country...',
-        searchEnabled: true,
-        apiUrl: null, // You can add an API URL here for real-time search
-      });
-  
-      // Set some initial items for testing
-      dropdown.setItems([
-        { value: 1, label: 'United States' },
-        { value: 2, label: 'Canada' },
-        { value: 3, label: 'Mexico' },
-        { value: 4, label: 'France' },
-        { value: 5, label: 'Germany' },
-      ]);
-  
-      dropdown.open(); // Open dropdown (optional)
+
+    // Custom validator: labels must be at least 3 characters, with custom logic
+    function labelMinLengthValidator(selectedItems, minLength = 3) {
+      for (const item of selectedItems) {
+        if (item.label.length < minLength) {
+          return `The label "${item.label}" is too short. It must be at least ${minLength} characters long.`; // Return message
+        }
+      }
+    }
+
+    // Example usage
+    const dropdown = new Snapdrop(document.getElementById('dropdownContainer'), {
+      isMultiple: true,
+      validation: {  // Nesting validation settings
+        minSelectLimit: 2,
+        maxSelectLimit: 4,
+        minSelectLimitMessage: 'Please select at least {min} items.',
+        maxSelectLimitMessage: 'You can select a maximum of {max} items.',
+      },
+      itemsOptions: {  // Nesting item-specific options
+        showIcons: true,
+        showImages: false,
+        disabledItems: [1, 3], // Disable items with values 1 and 3
+        allowItemDescription: true
+      },
+      customValidators: [
+        noMoreThanOneOddNumber,
+        (selectedItems) => labelMinLengthValidator(selectedItems, 3)
+      ],
+      onValidationError: (msg) => {
+        // Display validation message
+        alert(msg);
+      },
+      dropdownItems: [
+        { value: 1, label: 'A', icon: 'icon1' },
+        { value: 2, label: 'Apple', icon: 'icon2' },
+        { value: 3, label: 'Banana', icon: 'icon3' },
+        { value: 4, label: 'C', icon: 'icon4' },
+        { value: 5, label: 'Pear', icon: 'icon5' }
+      ],
     });
+
+
+
+
+
   </script>
-  
+
 </body>
+
 </html>

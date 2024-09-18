@@ -4,23 +4,23 @@
  * Validates the built-in conditions: minSelectLimit and maxSelectLimit.
  * 
  * @param {Array} selectedItems - The items that are currently selected.
- * @param {Object} options - The dropdown options (minSelectLimit, maxSelectLimit, messages).
+ * @param {Object} validationOptions - The validation options (minSelectLimit, maxSelectLimit, messages).
  * @returns {Object} - An object containing 'isValid' boolean and 'message' (if invalid).
  */
-export function validateCore(selectedItems, options) {
+export function validateCore(selectedItems, validationOptions) {
   // Validate minimum select limit
-  if (options.minSelectLimit && selectedItems.length < options.minSelectLimit) {
+  if (validationOptions.minSelectLimit && selectedItems.length < validationOptions.minSelectLimit) {
     return {
       isValid: false,
-      message: options.minSelectLimitMessage.replace('{min}', options.minSelectLimit)
+      message: validationOptions.minSelectLimitMessage.replace('{min}', validationOptions.minSelectLimit)
     };
   }
 
   // Validate maximum select limit
-  if (options.maxSelectLimit && selectedItems.length > options.maxSelectLimit) {
+  if (validationOptions.maxSelectLimit && selectedItems.length > validationOptions.maxSelectLimit) {
     return {
       isValid: false,
-      message: options.maxSelectLimitMessage.replace('{max}', options.maxSelectLimit)
+      message: validationOptions.maxSelectLimitMessage.replace('{max}', validationOptions.maxSelectLimit)
     };
   }
 

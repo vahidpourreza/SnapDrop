@@ -1,5 +1,3 @@
-// js/snapdrop.js
-
 import { messages } from './snapdrop.messages.js';
 import { validateCore, runCustomValidators } from './snapdrop.validation.js';
 
@@ -26,19 +24,23 @@ export class Snapdrop {
       isRTL: false,
       enableSearch: false,
       showSelectAll: false,
-      maxSelectLimit: null,
-      minSelectLimit: null,
+      validation: {  // Grouping min/max limits and messages
+        maxSelectLimit: null,
+        minSelectLimit: null,
+        minSelectLimitMessage: messageSet.minSelectLimitMessage,
+        maxSelectLimitMessage: messageSet.maxSelectLimitMessage,
+      },
+      itemsOptions: {  //  item-related options
+        showIcons: true,
+        showImages: true,
+        disabledItems: [],
+        allowItemDescription: false
+      },
       customValidators: [],
       onValidationError: null,
-      minSelectLimitMessage: messageSet.minSelectLimitMessage,
-      maxSelectLimitMessage: messageSet.maxSelectLimitMessage,
-      isDisabled: false,
       dropdownPlaceholder: messageSet.dropdownPlaceholder,
       searchPlaceholder: messageSet.searchPlaceholder,
       preselectedValues: [],
-      allowItemDescription: false,
-      showIcons: true,
-      disabledItems: [],
       onDropdownMessage: null,
       dataSourceURL: null,
       onDataLoad: null,
@@ -99,7 +101,7 @@ export class Snapdrop {
 
   validate() {
     // First, run Snapdrop's core validation (min/max selection limits)
-    const coreValidationResult = validateCore(this.state.selectedItems, this.options);
+    const coreValidationResult = validateCore(this.state.selectedItems, this.options.validation);
 
     if (!coreValidationResult.isValid) {
       this._triggerValidationMessage(coreValidationResult.message); // Built-in validation message
@@ -133,4 +135,3 @@ export class Snapdrop {
     this.state.searchQuery = query;
   }
 }
-
